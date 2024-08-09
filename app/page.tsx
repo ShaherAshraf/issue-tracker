@@ -1,7 +1,9 @@
+import { Button } from '@radix-ui/themes';
+
 export default function Home() {
   return (
     <main>
-      <h1>Hello World</h1>
+      <Button>Hello World</Button>
     </main>
   );
 }
