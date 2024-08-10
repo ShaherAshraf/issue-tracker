@@ -11,6 +11,7 @@ import { AiOutlineInfoCircle } from 'react-icons/ai';
 import { createIssueSchema } from '@/app/validationSchemas';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import ErrorMessage from '@/app/components/ErrorMessage';
 
 type IssueForm = z.infer<typeof createIssueSchema>;
 
@@ -48,21 +49,13 @@ const NewIssuePage = () => {
         })}
       >
         <TextField.Root placeholder='Title' {...register('title')} />
-        {errors.title && (
-          <Text color='red' as='p'>
-            {errors.title.message}
-          </Text>
-        )}
+        <ErrorMessage>{errors.title?.message}</ErrorMessage>
         <Controller
           name='description'
           control={control}
           render={({ field }) => <SimpleMDE placeholder='Description' {...field} />}
         />
-        {errors.description && (
-          <Text color='red' as='p'>
-            {errors.description.message}
-          </Text>
-        )}
+        <ErrorMessage>{errors.description?.message}</ErrorMessage>
         <Button className='!cursor-pointer'>Submit New Issue</Button>
       </form>
     </div>
