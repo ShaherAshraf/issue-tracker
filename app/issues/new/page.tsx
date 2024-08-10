@@ -1,18 +1,18 @@
 'use client';
 
-import { TextField, Button, Callout, Text } from '@radix-ui/themes';
-import SimpleMDE from 'react-simplemde-editor';
-import 'easymde/dist/easymde.min.css';
-import React, { useState } from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
-import { AiOutlineInfoCircle } from 'react-icons/ai';
-import { createIssueSchema } from '@/app/validationSchemas';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
 import ErrorMessage from '@/app/components/ErrorMessage';
 import Spinner from '@/app/components/Spinner';
+import { createIssueSchema } from '@/app/validationSchemas';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Button, Callout, TextField } from '@radix-ui/themes';
+import axios from 'axios';
+import 'easymde/dist/easymde.min.css';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { AiOutlineInfoCircle } from 'react-icons/ai';
+import SimpleMDE from 'react-simplemde-editor';
+import { z } from 'zod';
 
 type IssueForm = z.infer<typeof createIssueSchema>;
 
@@ -41,7 +41,7 @@ const NewIssuePage = () => {
   });
 
   return (
-    <div className='max-w-xl '>
+    <div className='max-w-xl'>
       {error && (
         <Callout.Root color='red' className='mb-5'>
           <Callout.Icon>
