@@ -14,7 +14,7 @@ datasource db {
 }
 
 model Issue {
-  id               BigInt   @id @default(autoincrement())
+  id               Int   @id @default(sequence())
   title            String
   description      String
   status           Status   @default(OPEN)
