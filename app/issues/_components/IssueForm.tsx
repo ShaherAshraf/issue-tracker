@@ -4,7 +4,7 @@ import { ErrorMessage, Spinner } from '@/app/components/';
 import { issueSchema } from '@/app/validationSchemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Issue } from '@prisma/client';
-import { Button, Callout, TextField } from '@radix-ui/themes';
+import { Box, Button, Callout, Flex, TextField } from '@radix-ui/themes';
 import axios from 'axios';
 import 'easymde/dist/easymde.min.css';
 import { useRouter } from 'next/navigation';
@@ -13,6 +13,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import SimpleMDE from 'react-simplemde-editor';
 import { z } from 'zod';
+import IssueFormStatusSelect from './IssueFormStatusSelect';
 
 type IssueFormData = z.infer<typeof issueSchema>;
 
@@ -30,9 +31,10 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onSubmit = handleSubmit(async (data) => {
+    debugger;
     try {
       setIsSubmitting(true);
-      if (issue) await axios.patch(`/api/issues/${issue.id}`, data);
+      if (issue) await axios.patch(`/api/issues/${issue.id}`, { ...data, status: issue.status });
       else await axios.post('/api/issues', data);
       router.push('/issues/list');
       router.refresh();
@@ -62,6 +64,9 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
           render={({ field }) => <SimpleMDE placeholder='Description' {...field} />}
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
+        <Box>
+          <Flex direction='column'>{issue && <IssueFormStatusSelect issue={issue} />}</Flex>
+        </Box>
         <Button className='!cursor-pointer' disabled={isSubmitting}>
           {issue ? 'Update Issue' : 'Submit New Issue'} {isSubmitting && <Spinner />}
         </Button>

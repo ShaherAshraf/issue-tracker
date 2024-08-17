@@ -25,13 +25,13 @@ const IssueStatusFilter = () => {
 
   return (
     <Select.Root
-      value={searchParams.get('status')!}
+      value={searchParams.get('status')! || 'ALL'}
       onValueChange={(status) => filterStatus(status)}
     >
       <Select.Trigger className='!cursor-pointer' placeholder='Filter by status...' />
       <Select.Content>
         {statuses.map((status) => (
-          <Select.Item className='!cursor-pointer' key={status.value} value={status.value}>
+          <Select.Item className='!cursor-pointer' key={status.value} value={status.value!}>
             {status.label}
           </Select.Item>
         ))}
