@@ -6,18 +6,27 @@ import IssueChart from './IssueChart';
 import IssueSummary from './IssueSummary';
 import LatestIssues from './LatestIssues';
 
-const countStatus = async (status: Status) => {
-  return await prisma.issue.count({ where: { status } });
-};
+export async function getStaticProps() {
+  const open = await prisma.issue.count({ where: { status: 'OPEN' } });
+  const inProgress = await prisma.issue.count({ where: { status: 'IN_PROGRESS' } });
+  const closed = await prisma.issue.count({ where: { status: 'CLOSED' } });
 
-export default async function Home() {
+  return {
+    props: { open, inProgress, closed },
+    revalidate: 0,
+  };
+}
+
+interface Props {
+  open: number;
+  inProgress: number;
+  closed: number;
+}
+
+export default async function Home({ open, inProgress, closed }: Props) {
   // const open = await prisma.issue.count({ where: { status: 'OPEN' } });
   // const inProgress = await prisma.issue.count({ where: { status: 'IN_PROGRESS' } });
   // const closed = await prisma.issue.count({ where: { status: 'CLOSED' } });
-
-  const open = await countStatus('OPEN');
-  const inProgress = await countStatus('IN_PROGRESS');
-  const closed = await countStatus('CLOSED');
 
   return (
     <Grid columns={{ initial: '1', md: '2' }} gap='5'>
