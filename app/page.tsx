@@ -6,24 +6,23 @@ import IssueChart from './IssueChart';
 import IssueSummary from './IssueSummary';
 import LatestIssues from './LatestIssues';
 
-export async function getStaticProps() {
+export async function generateStaticParams() {
   const open = await prisma.issue.count({ where: { status: 'OPEN' } });
   const inProgress = await prisma.issue.count({ where: { status: 'IN_PROGRESS' } });
   const closed = await prisma.issue.count({ where: { status: 'CLOSED' } });
 
   return {
-    props: { open, inProgress, closed },
+    params: { open, inProgress, closed },
     revalidate: 0,
   };
 }
 
 interface Props {
-  open: number;
-  inProgress: number;
-  closed: number;
+  params: { open: number; inProgress: number; closed: number };
 }
 
-export default async function Home({ open, inProgress, closed }: Props) {
+export default async function Home({ params }: Props) {
+  const { open, inProgress, closed } = params;
   // const open = await prisma.issue.count({ where: { status: 'OPEN' } });
   // const inProgress = await prisma.issue.count({ where: { status: 'IN_PROGRESS' } });
   // const closed = await prisma.issue.count({ where: { status: 'CLOSED' } });
