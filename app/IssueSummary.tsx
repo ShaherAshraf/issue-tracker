@@ -1,3 +1,4 @@
+import prisma from '@/prisma/client';
 import { Status } from '@prisma/client';
 import { Card, Flex, Text } from '@radix-ui/themes';
 import Link from 'next/link';
@@ -8,7 +9,11 @@ interface Props {
   closed: number;
 }
 
-const IssueSummary = ({ open, inProgress, closed }: Props) => {
+const IssueSummary = async (/* { open, inProgress, closed }: Props */) => {
+  const open = await prisma.issue.count({ where: { status: 'OPEN' } });
+  const inProgress = await prisma.issue.count({ where: { status: 'IN_PROGRESS' } });
+  const closed = await prisma.issue.count({ where: { status: 'CLOSED' } });
+
   const containers: { label: string; value: number; status: Status }[] = [
     { label: 'Open Issues', value: open, status: 'OPEN' },
     { label: 'In-progress Issues', value: inProgress, status: 'IN_PROGRESS' },
