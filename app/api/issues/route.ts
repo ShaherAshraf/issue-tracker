@@ -7,22 +7,17 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
   try {
-    // Extract the query parameters
     const url = new URL(request.url)!;
     const statusParam = url.searchParams.get('status');
-
-    // Type assertion to ensure status is of type Status if provided
     const status: Status | undefined = statusParam as Status | undefined;
 
-    // // Fetch issues based on the status query parameter
     const count = await prisma.issue.count({
       where: {
-        status, // Filter by status if provided
+        status,
       },
     });
 
-    // Return the issues as JSON
-    return NextResponse.json({ statusCount: count });
+    return NextResponse.json(count);
   } catch (error) {
     console.error('Error fetching issues:', error);
     return NextResponse.json({ error: 'Failed to fetch issues' }, { status: 500 });
