@@ -11,7 +11,8 @@ const countStatus = async (status: Status) => {
     const response = await axios.get(`${process.env.NEXTAUTH_URL}api/issues`, {
       params: { status },
     });
-    return response.data;
+    const data = response.data;
+    return data.statusCount;
   } catch (error) {
     console.error('Error fetching status count:', error);
     throw new Error('Failed to fetch status count');

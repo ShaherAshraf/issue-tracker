@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    return NextResponse.json(count);
+    return NextResponse.json({ statusCount: count });
   } catch (error) {
     console.error('Error fetching issues:', error);
     return NextResponse.json({ error: 'Failed to fetch issues' }, { status: 500 });
