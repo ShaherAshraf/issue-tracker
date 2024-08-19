@@ -6,9 +6,19 @@ import IssueChart from './IssueChart';
 import IssueSummary from './IssueSummary';
 import LatestIssues from './LatestIssues';
 
+const baseURL = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+
+// const countStatus = async (status: Status) => {
+//   const res = await fetch(`${process.env.NEXTAUTH_URL}/api/issues?status=${status}`, {
+//     cache: 'no-store',
+//   });
+//   const data = await res.json();
+//   return data.statusCount;
+// };
+
 const countStatus = async (status: Status) => {
   try {
-    const response = await axios.get(`${process.env.NEXTAUTH_URL}api/issues`, {
+    const response = await axios.get(`${baseURL}/api/issues`, {
       params: { status },
     });
     const data = response.data;
