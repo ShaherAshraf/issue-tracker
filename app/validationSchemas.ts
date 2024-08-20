@@ -11,6 +11,7 @@ export const issueSchema = z.object({
     .min(1, 'Description is required.')
     .max(65535)
     .refine((value) => value!.trim().length > 0, 'Description cannot be just whitespace'),
+  status: z.string().min(1, 'Status is required.').max(255).optional(),
 });
 
 export const patchIssueSchema = z.object({

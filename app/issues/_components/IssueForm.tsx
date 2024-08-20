@@ -34,7 +34,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
     debugger;
     try {
       setIsSubmitting(true);
-      if (issue) await axios.patch(`/api/issues/${issue.id}`, { ...data, status: issue.status });
+      if (issue) await axios.patch(`/api/issues/${issue.id}`, data);
       else await axios.post('/api/issues', data);
       router.push('/issues/list');
       router.refresh();
@@ -66,7 +66,12 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
         <Box>
           <Flex direction='column'>
-            <IssueFormStatusSelect issue={issue!} />
+            <Controller
+              name='status'
+              control={control}
+              defaultValue={issue?.status}
+              render={({ field }) => <IssueFormStatusSelect issue={issue} {...field} />}
+            />
           </Flex>
         </Box>
         <Button className='!cursor-pointer' disabled={isSubmitting}>

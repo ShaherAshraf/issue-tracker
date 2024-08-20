@@ -5,25 +5,6 @@ import { Status } from '@prisma/client';
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(request: NextRequest) {
-  try {
-    const url = new URL(request.url)!;
-    const statusParam = url.searchParams.get('status');
-    const status: Status | undefined = statusParam as Status | undefined;
-
-    const count = await prisma.issue.count({
-      where: {
-        status,
-      },
-    });
-
-    return NextResponse.json({ statusCount: count });
-  } catch (error) {
-    console.error('Error fetching issues:', error);
-    return NextResponse.json({ error: 'Failed to fetch issues' }, { status: 500 });
-  }
-}
-
 export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session) return NextResponse.json({}, { status: 401 });
@@ -36,6 +17,7 @@ export async function POST(request: NextRequest) {
     data: {
       title: body.title,
       description: body.description,
+      status: body.status,
     },
   });
 

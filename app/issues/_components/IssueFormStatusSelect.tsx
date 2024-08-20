@@ -1,7 +1,7 @@
 import { Issue, Status } from '@prisma/client';
 import { Select } from '@radix-ui/themes';
 
-const IssueFormStatusSelect = ({ issue }: { issue: Issue }) => {
+const IssueFormStatusSelect = ({ issue, onChange }: { issue?: Issue; onChange: any }) => {
   const statuses: { label: string; value: Status }[] = [
     { label: 'Open', value: 'OPEN' },
     { label: 'In-progress', value: 'IN_PROGRESS' },
@@ -10,7 +10,10 @@ const IssueFormStatusSelect = ({ issue }: { issue: Issue }) => {
 
   return (
     <>
-      <Select.Root defaultValue={issue?.status} onValueChange={(s: Status) => (issue.status = s)}>
+      <Select.Root
+        defaultValue={issue?.status || 'OPEN'}
+        onValueChange={(s: Status) => onChange(s)}
+      >
         <Select.Trigger className='!cursor-pointer' placeholder='Status...' />
         <Select.Content>
           <Select.Group>
