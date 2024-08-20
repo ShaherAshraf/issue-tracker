@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Issue Tracker - A Nextjs Application.
 
-## Getting Started
+## Table of contents
 
-First, run the development server:
+- [Overview](#overview)
+  - [Screenshot](#screenshot)
+  - [Links](#links)
+- [My process](#my-process)
+  - [Built with](#built-with)
+  - [Useful resources](#useful-resources)
+- [Get Started](#get-started)
+- [Author](#author)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Overview
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Screenshot
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+![](./public/Screenshot.png)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Links
 
-## Learn More
+- Live Site URL: [Issue Tracker](https://nextjs-issuetracker.vercel.app/)
 
-To learn more about Next.js, take a look at the following resources:
+## My process
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Built with
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- [Next.js](https://nextjs.org/)
+- [NextAuth.js](https://next-auth.js.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Radix UI](https://www.radix-ui.com/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Prisma](https://www.prisma.io/)
+- [Zod](https://zod.dev/)
+- [React Hook Form](https://react-hook-form.com/)
 
-## Deploy on Vercel
+### Useful resources
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- [CockroachDB Database Setup and Usage Guide](https://www.youtube.com/playlist?list=PLXswBSp5YNOtm2XvxiPRUCXFT2bUNecXP)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Get started
+
+- To get started, follow these steps:
+
+1. Clone this repository to your local machine. 
+2. In the project folder, rename **.env.example** to **.env** (no period after). 
+3. Set **all** the environment variables according to the instructions in the file. If you don't set them properly, the application will not work.
+4. Run `npm install` to install the dependencies.
+5. Run `npx prisma migrate dev` to generate your database tables.
+6. Run `npm run dev` to start the web server. 
+
+## Author
+
+- Portfolio - [Shaher Ashraf](https://thegoat7.netlify.app/)
+- LinkedIn - [Shaher Ashraf](https://www.linkedin.com/in/shaher88223/)
