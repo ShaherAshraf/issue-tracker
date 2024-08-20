@@ -1,7 +1,7 @@
 import { IssueStatusBadge, Link } from '@/app/components';
 import { Issue, Status } from '@prisma/client';
 import { ArrowUpIcon } from '@radix-ui/react-icons';
-import { Table } from '@radix-ui/themes';
+import { Card, Flex, Heading, Table } from '@radix-ui/themes';
 import NextLink from 'next/link';
 
 export interface IssueQuery {
@@ -17,38 +17,61 @@ interface Props {
 
 const IssueTable = ({ searchParams, issues }: Props) => {
   return (
-    <Table.Root variant='surface'>
-      <Table.Header>
-        <Table.Row>
-          {columns.map((column) => (
-            <Table.ColumnHeaderCell className={column.className} key={column.value}>
-              <NextLink href={{ query: { ...searchParams, orderBy: column.value } }}>
-                {column.label}
-                {column.value === searchParams.orderBy && <ArrowUpIcon className='inline' />}
-              </NextLink>
-            </Table.ColumnHeaderCell>
-          ))}
-        </Table.Row>
-      </Table.Header>
-      <Table.Body>
-        {issues.map((issue) => (
-          <Table.Row key={issue.id}>
-            <Table.RowHeaderCell>
-              <Link href={`/issues/${issue.id}`}>{issue.title}</Link>
-              <div className='md:hidden'>
-                <IssueStatusBadge status={issue.status} />
-              </div>
-            </Table.RowHeaderCell>
-            <Table.Cell className='hidden md:table-cell'>
-              <IssueStatusBadge status={issue.status} />
-            </Table.Cell>
-            <Table.Cell className='hidden md:table-cell'>
-              {issue.createdAt.toDateString()}
-            </Table.Cell>
-          </Table.Row>
-        ))}
-      </Table.Body>
-    </Table.Root>
+    <>
+      {!issues.length ? (
+        <>
+          <Table.Root variant='surface'>
+            <Table.Header>
+              <TableHeader searchParams={searchParams} />
+            </Table.Header>
+          </Table.Root>
+          <Card>
+            <Flex height='350px' justify='center' align='center'>
+              <Heading as='h3'>No Issues Yet! 😩</Heading>
+            </Flex>
+          </Card>
+        </>
+      ) : (
+        <Table.Root variant='surface'>
+          <Table.Header>
+            <TableHeader searchParams={searchParams} />
+          </Table.Header>
+          <Table.Body>
+            {issues.map((issue) => (
+              <Table.Row key={issue.id}>
+                <Table.RowHeaderCell>
+                  <Link href={`/issues/${issue.id}`}>{issue.title}</Link>
+                  <div className='md:hidden'>
+                    <IssueStatusBadge status={issue.status} />
+                  </div>
+                </Table.RowHeaderCell>
+                <Table.Cell className='hidden md:table-cell'>
+                  <IssueStatusBadge status={issue.status} />
+                </Table.Cell>
+                <Table.Cell className='hidden md:table-cell'>
+                  {issue.createdAt.toDateString()}
+                </Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table.Root>
+      )}
+    </>
+  );
+};
+
+const TableHeader = ({ searchParams }: { searchParams: IssueQuery }) => {
+  return (
+    <Table.Row>
+      {columns.map((column) => (
+        <Table.ColumnHeaderCell className={column.className} key={column.value}>
+          <NextLink href={{ query: { ...searchParams, orderBy: column.value } }}>
+            {column.label}
+            {column.value === searchParams.orderBy && <ArrowUpIcon className='inline' />}
+          </NextLink>
+        </Table.ColumnHeaderCell>
+      ))}
+    </Table.Row>
   );
 };
 

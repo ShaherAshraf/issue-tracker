@@ -10,8 +10,8 @@ const IssueFormStatusSelect = ({ issue }: { issue: Issue }) => {
 
   return (
     <>
-      <Select.Root defaultValue={issue.status} onValueChange={(s: Status) => (issue.status = s)}>
-        <Select.Trigger className='!cursor-pointer' placeholder='Assign...' />
+      <Select.Root defaultValue={issue?.status} onValueChange={(s: Status) => (issue.status = s)}>
+        <Select.Trigger className='!cursor-pointer' placeholder='Status...' />
         <Select.Content>
           <Select.Group>
             <Select.Label>Status</Select.Label>

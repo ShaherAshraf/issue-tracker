@@ -1,49 +1,64 @@
 'use client';
 
-import { Skeleton } from '@/app/components';
+import { Skeleton, Spinner } from '@/app/components';
 import { Issue, User } from '@prisma/client';
-import { Select } from '@radix-ui/themes';
+import { Button, Select } from '@radix-ui/themes';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 
 const AssigneeSelect = ({ issue }: { issue: Issue }) => {
   const { isPending, error, data: users } = useUsers();
+  const [isLoading, setIsLoading] = useState(false);
+  const [assignee, setAssignee] = useState(issue.assignedToUserId);
+  const router = useRouter();
 
   if (isPending) return <Skeleton />;
 
   if (error) return null;
 
-  const assignIssue = (userId: string) =>
-    axios
-      .patch(`/api/issues/${issue.id}`, {
+  const assignIssue = async (userId: string) => {
+    try {
+      setIsLoading(true);
+      const res = await axios.patch(`/api/issues/${issue.id}`, {
         assignedToUserId: userId != 'unassigned' ? userId : null,
-      })
-      .catch(() => {
-        toast.error('Changes could not be saved.');
       });
+      setIsLoading(false);
+      setAssignee(res.data.assignedToUserId);
+      router.refresh();
+    } catch (err) {
+      setIsLoading(false);
+      toast.error('Changes could not be saved.');
+    }
+  };
 
   return (
     <>
-      <Select.Root
-        defaultValue={issue.assignedToUserId || 'unassigned'}
-        onValueChange={assignIssue}
-      >
-        <Select.Trigger className='!cursor-pointer' placeholder='Assign...' />
-        <Select.Content>
-          <Select.Group>
-            <Select.Label>Suggestions</Select.Label>
-            <Select.Item value='unassigned' className='!cursor-pointer'>
-              unassigned
-            </Select.Item>
-            {users.map((user) => (
-              <Select.Item key={user.id} value={user.id} className='!cursor-pointer'>
-                {user.name}
+      {isLoading ? (
+        <Button color='red' disabled>
+          Loading...
+          {isLoading && <Spinner />}
+        </Button>
+      ) : (
+        <Select.Root defaultValue={assignee || 'unassigned'} onValueChange={assignIssue}>
+          <Select.Trigger className='!cursor-pointer' placeholder='Assign...' />
+          <Select.Content>
+            <Select.Group>
+              <Select.Label>Suggestions</Select.Label>
+              <Select.Item value='unassigned' className='!cursor-pointer'>
+                unassigned
               </Select.Item>
-            ))}
-          </Select.Group>
-        </Select.Content>
-      </Select.Root>
+              {users.map((user) => (
+                <Select.Item key={user.id} value={user.id} className='!cursor-pointer'>
+                  {user.name}
+                </Select.Item>
+              ))}
+            </Select.Group>
+          </Select.Content>
+        </Select.Root>
+      )}
       <Toaster />
     </>
   );

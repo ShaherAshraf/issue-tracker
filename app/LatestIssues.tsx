@@ -17,25 +17,36 @@ const LatestIssues = async () => {
       <Heading size='4' mb='5'>
         Latest Issues
       </Heading>
-      <Table.Root>
-        <Table.Body>
-          {issues.map((issue) => (
-            <Table.Row key={issue.id}>
-              <Table.Cell>
-                <Flex justify='between'>
-                  <Flex direction='column' gap='2' align='start'>
-                    <Link href={`/issues/${issue.id}`}>{issue.title}</Link>
-                    <IssueStatusBadge status={issue.status} />
+      {!issues.length ? (
+        <Flex height='calc(100% - 6rem)' justify='center' align='center'>
+          <Heading as='h3'>No Issues Yet! 😩</Heading>
+        </Flex>
+      ) : (
+        <Table.Root>
+          <Table.Body>
+            {issues.map((issue) => (
+              <Table.Row key={issue.id}>
+                <Table.Cell>
+                  <Flex justify='between'>
+                    <Flex direction='column' gap='2' align='start'>
+                      <Link href={`/issues/${issue.id}`}>{issue.title}</Link>
+                      <IssueStatusBadge status={issue.status} />
+                    </Flex>
+                    {issue.assignedToUser && (
+                      <Avatar
+                        src={issue.assignedToUser.image!}
+                        fallback='?'
+                        radius='full'
+                        size='2'
+                      />
+                    )}
                   </Flex>
-                  {issue.assignedToUser && (
-                    <Avatar src={issue.assignedToUser.image!} fallback='?' radius='full' size='2' />
-                  )}
-                </Flex>
-              </Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table.Root>
+                </Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table.Root>
+      )}
     </Card>
   );
 };

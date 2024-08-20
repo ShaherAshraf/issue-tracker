@@ -65,7 +65,9 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
         <Box>
-          <Flex direction='column'>{issue && <IssueFormStatusSelect issue={issue} />}</Flex>
+          <Flex direction='column'>
+            <IssueFormStatusSelect issue={issue!} />
+          </Flex>
         </Box>
         <Button className='!cursor-pointer' disabled={isSubmitting}>
           {issue ? 'Update Issue' : 'Submit New Issue'} {isSubmitting && <Spinner />}

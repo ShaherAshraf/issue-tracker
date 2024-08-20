@@ -6,6 +6,7 @@ const IssueFormSkeleton = async () => {
     <Box className='max-w-xl'>
       <Skeleton height='2rem' />
       <Skeleton height='20rem' />
+      <Skeleton height='2rem' />
       <Skeleton width='5rem' />
     </Box>
   );

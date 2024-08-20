@@ -15,7 +15,7 @@ const NavBar = () => {
         <Flex justify='between'>
           <Flex align='center' gap='3'>
             <Link href='/'>
-              <AiFillBug />
+              <AiFillBug size={20} />
             </Link>
             <NavLinks />
           </Flex>
